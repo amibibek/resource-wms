@@ -1,26 +1,400 @@
 import { createFileRoute } from "@tanstack/react-router";
+import {
+  LayoutDashboard,
+  MonitorPlay,
+  Database,
+  Package,
+  PackagePlus,
+  PackageMinus,
+  Boxes,
+  BarChart3,
+  Receipt,
+  Settings,
+  Menu,
+  Bell,
+  Search,
+  ChevronDown,
+  ArrowRight,
+  Truck,
+  ArrowDownToLine,
+  ArrowUpFromLine,
+  Wrench,
+  ClipboardList,
+  FileText,
+  KeyRound,
+  TrendingUp,
+} from "lucide-react";
 
 export const Route = createFileRoute("/")({
-  component: Index,
+  component: Dashboard,
+  head: () => ({
+    meta: [
+      { title: "Dashboard · Resources WMS" },
+      { name: "description", content: "Pallet warehouse management system dashboard" },
+    ],
+  }),
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+const navMain = [
+  { label: "Dashboard", icon: LayoutDashboard, active: true },
+  { label: "On Board Dashboard", icon: MonitorPlay },
+];
+
+const navManagement = [
+  { label: "Master Data", icon: Database },
+  { label: "Items", icon: Package },
+  { label: "InBound", icon: PackagePlus },
+  { label: "OutBound", icon: PackageMinus },
+  { label: "Inventory", icon: Boxes },
+];
+
+const navBusiness = [
+  { label: "Reports", icon: BarChart3 },
+  { label: "Invoicing", icon: Receipt },
+];
+
+const navSystem = [{ label: "Settings", icon: Settings }];
+
+const tiles = [
+  {
+    label: "Shipping Orders",
+    desc: "Manage outgoing deliveries and logistics.",
+    icon: Truck,
+    tone: "bg-blue-50 text-blue-600",
+  },
+  {
+    label: "Receiving",
+    desc: "Handle incoming stock and dock arrivals.",
+    icon: ArrowDownToLine,
+    tone: "bg-emerald-50 text-emerald-600",
+  },
+  {
+    label: "Outbound",
+    desc: "Staging and dispatch for carrier pickup.",
+    icon: ArrowUpFromLine,
+    tone: "bg-indigo-50 text-indigo-600",
+  },
+  {
+    label: "Services",
+    desc: "WMS configuration and utility tools.",
+    icon: Wrench,
+    tone: "bg-amber-50 text-amber-600",
+  },
+  {
+    label: "Inventory Items",
+    desc: "SKU master list and stock levels.",
+    icon: ClipboardList,
+    tone: "bg-slate-100 text-slate-600",
+  },
+  {
+    label: "Invoices",
+    desc: "Billing history and payment status.",
+    icon: FileText,
+    tone: "bg-rose-50 text-rose-600",
+  },
+  {
+    label: "Reports",
+    desc: "Analytical data and KPI visualizations.",
+    icon: BarChart3,
+    tone: "bg-violet-50 text-violet-600",
+  },
+  {
+    label: "Security",
+    desc: "Update passwords and access levels.",
+    icon: KeyRound,
+    tone: "bg-slate-100 text-slate-600",
+  },
+];
+
+function Dashboard() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="flex min-h-screen bg-background font-sans text-slate-900">
+      {/* Sidebar */}
+      <aside className="hidden md:flex w-64 bg-brand-primary text-slate-300 flex-col shrink-0">
+        <div className="p-6 flex items-center gap-3">
+          <div className="size-9 bg-brand-accent rounded-md flex items-center justify-center font-bold text-white">
+            R
+          </div>
+          <div>
+            <h1 className="text-white font-bold text-lg leading-tight">Resources</h1>
+            <p className="text-[10px] text-slate-400 uppercase tracking-wider">
+              Pallet WMS Product
+            </p>
+          </div>
+        </div>
+
+        <nav className="flex-1 px-4 space-y-1 mt-2 overflow-y-auto">
+          {navMain.map((item) => (
+            <NavItem key={item.label} {...item} />
+          ))}
+
+          <SectionLabel>Management</SectionLabel>
+          {navManagement.map((item) => (
+            <NavItem key={item.label} {...item} chevron />
+          ))}
+
+          <SectionLabel>Business</SectionLabel>
+          {navBusiness.map((item) => (
+            <NavItem key={item.label} {...item} chevron />
+          ))}
+
+          <SectionLabel>System</SectionLabel>
+          {navSystem.map((item) => (
+            <NavItem key={item.label} {...item} />
+          ))}
+        </nav>
+
+        <div className="p-4 mt-auto border-t border-white/5">
+          <div className="flex items-center gap-3">
+            <div className="size-9 rounded-full bg-slate-800 grid place-items-center text-xs font-semibold text-white outline-1 -outline-offset-1 outline-white/10">
+              AD
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-medium text-white truncate">Admin User</p>
+              <p className="text-[10px] text-slate-500 truncate">Super Admin</p>
+            </div>
+            <ChevronDown className="size-4 text-slate-500" />
+          </div>
+        </div>
+      </aside>
+
+      {/* Main */}
+      <main className="flex-1 flex flex-col min-w-0">
+        {/* Header */}
+        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8">
+          <div className="flex items-center gap-4">
+            <button className="size-9 grid place-items-center rounded-md hover:bg-slate-100 text-slate-600">
+              <Menu className="size-4" />
+            </button>
+            <h2 className="font-semibold text-lg text-slate-800">Dashboard Overview</h2>
+          </div>
+          <div className="flex items-center gap-3 md:gap-6">
+            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700">
+              <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-xs font-medium">System Live</span>
+            </div>
+            <button className="hidden sm:grid size-10 place-items-center rounded-full hover:bg-slate-100 text-slate-600">
+              <Search className="size-4" />
+            </button>
+            <button className="relative grid size-10 place-items-center rounded-full hover:bg-slate-100 text-slate-600">
+              <Bell className="size-4" />
+              <span className="absolute top-2 right-2 size-2 rounded-full bg-rose-500" />
+            </button>
+            <div className="hidden sm:flex items-center gap-2 pl-3 border-l border-slate-200">
+              <div className="size-8 rounded-full bg-brand-primary text-white grid place-items-center text-xs font-semibold">
+                AD
+              </div>
+              <ChevronDown className="size-4 text-slate-500" />
+            </div>
+          </div>
+        </header>
+
+        <div className="p-4 md:p-8 overflow-y-auto">
+          {/* KPI Strip */}
+          <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+            <KpiCard
+              label="Active Orders"
+              value="1,284"
+              hint="↑ 12% from yesterday"
+              hintTone="text-emerald-600"
+            />
+            <KpiCard
+              label="Inbound Transit"
+              value="42"
+              hint="6 arriving in 2 hours"
+              hintTone="text-slate-500"
+            />
+            <KpiCard label="Warehouse Cap" value="88%">
+              <div className="mt-3 h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                <div className="h-full bg-brand-accent" style={{ width: "88%" }} />
+              </div>
+            </KpiCard>
+            <KpiCard
+              label="Pending Tasks"
+              value="15"
+              hint="Requires attention"
+              hintTone="text-amber-600"
+            />
+          </section>
+
+          {/* Module Grid */}
+          <section className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">
+                Operation Hub
+              </h3>
+              <button className="text-xs font-medium text-brand-accent hover:underline flex items-center gap-1">
+                Customize <ArrowRight className="size-3" />
+              </button>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {tiles.map((tile) => (
+                <ModuleTile key={tile.label} {...tile} />
+              ))}
+            </div>
+          </section>
+
+          {/* Activity */}
+          <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+              <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-slate-800">Recent Activity</h3>
+                <button className="text-xs text-brand-accent hover:underline">View all</button>
+              </div>
+              <ul className="divide-y divide-slate-100">
+                {[
+                  {
+                    time: "09:42",
+                    text: "Outbound shipment #SO-9921 finalized",
+                    meta: "Station 04",
+                  },
+                  {
+                    time: "09:38",
+                    text: "Inventory correction: PLT-44-B (+4 units)",
+                    meta: "Admin",
+                  },
+                  {
+                    time: "09:35",
+                    text: "Receiving order created — Supplier: PalletCorp",
+                    meta: "Gate 02",
+                  },
+                  {
+                    time: "09:21",
+                    text: "Invoice #INV-3382 marked as paid",
+                    meta: "Billing",
+                  },
+                ].map((row) => (
+                  <li
+                    key={row.text}
+                    className="px-5 py-3 flex items-center justify-between text-[13px] hover:bg-slate-50/60"
+                  >
+                    <div className="flex items-center gap-4 min-w-0">
+                      <span className="text-slate-400 tabular-nums text-xs w-12">{row.time}</span>
+                      <span className="font-medium text-slate-700 truncate">{row.text}</span>
+                    </div>
+                    <span className="text-slate-500 text-xs shrink-0 ml-4">{row.meta}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="bg-brand-primary text-white rounded-xl p-6 shadow-sm flex flex-col">
+              <div className="flex items-center gap-2 text-brand-accent text-xs font-semibold uppercase tracking-wider">
+                <TrendingUp className="size-4" /> Throughput
+              </div>
+              <p className="text-4xl font-bold mt-3">2,176</p>
+              <p className="text-xs text-slate-400 mt-1">Pallets handled this week</p>
+              <div className="mt-6 flex items-end gap-1.5 h-20">
+                {[40, 65, 50, 80, 70, 90, 60].map((h, i) => (
+                  <div
+                    key={i}
+                    className="flex-1 rounded-sm bg-white/10"
+                    style={{ height: `${h}%` }}
+                  >
+                    <div
+                      className="w-full bg-brand-accent rounded-sm"
+                      style={{ height: `${h}%` }}
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 flex justify-between text-[10px] text-slate-500 uppercase tracking-wider">
+                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
     </div>
   );
 }
 
-function Index() {
-  return <PlaceholderIndex />;
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="pt-5 pb-2 px-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+      {children}
+    </div>
+  );
+}
+
+function NavItem({
+  label,
+  icon: Icon,
+  active,
+  chevron,
+}: {
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  active?: boolean;
+  chevron?: boolean;
+}) {
+  return (
+    <a
+      href="#"
+      className={
+        "flex items-center justify-between gap-3 px-3 py-2 rounded-md transition-colors " +
+        (active
+          ? "bg-brand-accent-soft text-white"
+          : "text-slate-300 hover:bg-white/5 hover:text-white")
+      }
+    >
+      <span className="flex items-center gap-3">
+        <Icon className="size-4" />
+        <span className="text-sm font-medium">{label}</span>
+      </span>
+      {chevron && <ArrowRight className="size-3 opacity-30" />}
+    </a>
+  );
+}
+
+function KpiCard({
+  label,
+  value,
+  hint,
+  hintTone,
+  children,
+}: {
+  label: string;
+  value: string;
+  hint?: string;
+  hintTone?: string;
+  children?: React.ReactNode;
+}) {
+  return (
+    <div className="bg-white p-5 md:p-6 rounded-xl border border-slate-200 shadow-sm">
+      <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">
+        {label}
+      </p>
+      <p className="text-2xl md:text-3xl font-bold text-slate-900">{value}</p>
+      {hint && <p className={"mt-2 text-[11px] font-medium " + (hintTone ?? "text-slate-500")}>{hint}</p>}
+      {children}
+    </div>
+  );
+}
+
+function ModuleTile({
+  label,
+  desc,
+  icon: Icon,
+  tone,
+}: {
+  label: string;
+  desc: string;
+  icon: React.ComponentType<{ className?: string }>;
+  tone: string;
+}) {
+  return (
+    <button className="flex flex-col items-start p-5 bg-white border border-slate-200 rounded-xl hover:border-brand-accent hover:shadow-lg transition-all text-left group">
+      <div
+        className={
+          "size-12 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform " +
+          tone
+        }
+      >
+        <Icon className="size-6" />
+      </div>
+      <p className="font-semibold text-slate-800">{label}</p>
+      <p className="text-xs text-slate-500 mt-1 leading-relaxed">{desc}</p>
+    </button>
+  );
 }
