@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   LayoutDashboard,
@@ -106,63 +107,104 @@ const tiles = [
 ];
 
 function Dashboard() {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+
   return (
-    <div className="flex min-h-screen bg-background font-sans text-slate-900">
+    <div className="flex h-screen bg-background font-sans text-slate-900 overflow-hidden">
+      {/* Mobile Overlay */}
+      {isMobileOpen && (
+        <div
+          className="fixed inset-0 bg-slate-900/50 z-40 md:hidden transition-opacity"
+          onClick={() => setIsMobileOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="hidden md:flex w-64 bg-white border-r border-slate-200 text-slate-700 flex-col shrink-0">
-        <div className="p-6 flex items-center gap-3">
-          <div className="size-9 bg-brand-accent rounded-md flex items-center justify-center font-bold text-white">
+      <aside
+        className={`fixed md:static inset-y-0 left-0 z-50 flex flex-col shrink-0 bg-white border-r border-slate-200 text-slate-700 transition-all duration-300 ease-in-out
+        ${isCollapsed ? "md:w-20" : "md:w-64"} 
+        w-64 md:w-auto
+        ${isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+      >
+        <div className={`p-6 flex items-center ${isCollapsed ? "md:justify-center" : "gap-3"}`}>
+          <div className="size-9 bg-brand-accent rounded-md flex items-center justify-center font-bold text-white shrink-0">
             R
           </div>
-          <div>
-            <h1 className="text-slate-900 font-bold text-lg leading-tight">Resources</h1>
-            <p className="text-[10px] text-slate-500 uppercase tracking-wider">
+          <div
+            className={`min-w-0 transition-all duration-300 ${
+              isCollapsed ? "md:w-0 md:opacity-0 overflow-hidden" : "w-auto opacity-100"
+            }`}
+          >
+            <h1 className="text-slate-900 font-bold text-lg leading-tight truncate">Resources</h1>
+            <p className="text-[10px] text-slate-500 uppercase tracking-wider truncate">
               Pallet WMS Product
             </p>
           </div>
         </div>
 
-        <nav className="flex-1 px-4 space-y-1 mt-2 overflow-y-auto">
+        <nav className="flex-1 px-3 space-y-1 mt-2 overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {navMain.map((item) => (
-            <NavItem key={item.label} {...item} />
+            <NavItem key={item.label} {...item} isCollapsed={isCollapsed} />
           ))}
 
-          <SectionLabel>Management</SectionLabel>
+          <SectionLabel isCollapsed={isCollapsed}>Management</SectionLabel>
           {navManagement.map((item) => (
-            <NavItem key={item.label} {...item} chevron />
+            <NavItem key={item.label} {...item} chevron isCollapsed={isCollapsed} />
           ))}
 
-          <SectionLabel>Business</SectionLabel>
+          <SectionLabel isCollapsed={isCollapsed}>Business</SectionLabel>
           {navBusiness.map((item) => (
-            <NavItem key={item.label} {...item} chevron />
+            <NavItem key={item.label} {...item} chevron isCollapsed={isCollapsed} />
           ))}
 
-          <SectionLabel>System</SectionLabel>
+          <SectionLabel isCollapsed={isCollapsed}>System</SectionLabel>
           {navSystem.map((item) => (
-            <NavItem key={item.label} {...item} />
+            <NavItem key={item.label} {...item} isCollapsed={isCollapsed} />
           ))}
         </nav>
 
-        <div className="p-4 mt-auto border-t border-slate-200">
+        <div
+          className={`p-4 mt-auto border-t border-slate-200 flex items-center ${
+            isCollapsed ? "md:justify-center" : "justify-between"
+          }`}
+        >
           <div className="flex items-center gap-3">
-            <div className="size-9 rounded-full bg-brand-primary grid place-items-center text-xs font-semibold text-white">
+            <div className="size-9 rounded-full bg-brand-primary grid place-items-center text-xs font-semibold text-white shrink-0">
               AD
             </div>
-            <div className="flex-1 min-w-0">
+            <div
+              className={`min-w-0 transition-all duration-300 ${
+                isCollapsed ? "md:w-0 md:opacity-0 md:hidden" : "block"
+              }`}
+            >
               <p className="text-xs font-medium text-slate-900 truncate">Admin User</p>
               <p className="text-[10px] text-slate-500 truncate">Super Admin</p>
             </div>
-            <ChevronDown className="size-4 text-slate-400" />
           </div>
+          <ChevronDown
+            className={`size-4 text-slate-400 shrink-0 ${isCollapsed ? "md:hidden" : "block"}`}
+          />
         </div>
       </aside>
 
-      {/* Main */}
+      {/* Main Container */}
       <main className="flex-1 flex flex-col min-w-0">
         {/* Header */}
-        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8">
+        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8 shrink-0">
           <div className="flex items-center gap-4">
-            <button className="size-9 grid place-items-center rounded-md hover:bg-slate-100 text-slate-600">
+            {/* Mobile Toggle */}
+            <button
+              className="md:hidden size-9 grid place-items-center rounded-md hover:bg-slate-100 text-slate-600"
+              onClick={() => setIsMobileOpen(true)}
+            >
+              <Menu className="size-4" />
+            </button>
+            {/* Desktop Toggle */}
+            <button
+              className="hidden md:grid size-9 place-items-center rounded-md hover:bg-slate-100 text-slate-600"
+              onClick={() => setIsCollapsed(!isCollapsed)}
+            >
               <Menu className="size-4" />
             </button>
             <h2 className="font-semibold text-lg text-slate-800">Dashboard Overview</h2>
@@ -188,17 +230,9 @@ function Dashboard() {
           </div>
         </header>
 
-        <div className="p-4 md:p-8 overflow-y-auto">
-          {/* Module Grid */}
+        {/* Scrollable Main Area */}
+        <div className="flex-1 p-4 md:p-8 overflow-y-auto">
           <section className="mb-8">
-            {/* <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">
-                Operation Hub
-              </h3>
-              <button className="text-xs font-medium text-brand-accent hover:underline flex items-center gap-1">
-                Customize <ArrowRight className="size-3" />
-              </button>
-            </div> */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {tiles.map((tile) => (
                 <ModuleTile key={tile.label} {...tile} />
@@ -211,11 +245,24 @@ function Dashboard() {
   );
 }
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
+function SectionLabel({
+  children,
+  isCollapsed,
+}: {
+  children: React.ReactNode;
+  isCollapsed?: boolean;
+}) {
   return (
-    <div className="pt-5 pb-2 px-3 text-[10px] font-bold text-slate-700 uppercase tracking-widest">
-      {children}
-    </div>
+    <>
+      {isCollapsed && <div className="hidden md:block my-4 border-t border-slate-200 mx-2" />}
+      <div
+        className={`pt-5 pb-2 px-3 text-[10px] font-bold text-slate-700 uppercase tracking-widest whitespace-nowrap ${
+          isCollapsed ? "md:hidden" : "block"
+        }`}
+      >
+        {children}
+      </div>
+    </>
   );
 }
 
@@ -224,27 +271,41 @@ function NavItem({
   icon: Icon,
   active,
   chevron,
+  isCollapsed,
 }: {
   label: string;
   icon: React.ComponentType<{ className?: string }>;
   active?: boolean;
   chevron?: boolean;
+  isCollapsed?: boolean;
 }) {
   return (
     <a
       href="#"
-      className={
-        "flex items-center justify-between gap-3 px-3 py-2 rounded-md transition-colors " +
-        (active
+      title={label}
+      className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors group ${
+        active
           ? "bg-brand-accent-soft text-brand-accent"
-          : "text-slate-700 hover:bg-slate-100 hover:text-slate-900")
-      }
+          : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+      } ${isCollapsed ? "md:justify-center" : "justify-between"}`}
     >
-      <span className="flex items-center gap-3">
-        <Icon className="size-4" />
-        <span className="text-sm font-medium">{label}</span>
+      <span className={`flex items-center ${isCollapsed ? "md:gap-0" : "gap-3"}`}>
+        <Icon className="size-5 shrink-0" />
+        <span
+          className={`text-sm font-medium whitespace-nowrap transition-all duration-300 ${
+            isCollapsed ? "md:w-0 md:opacity-0 md:overflow-hidden" : "w-auto opacity-100"
+          }`}
+        >
+          {label}
+        </span>
       </span>
-      {chevron && <ArrowRight className="size-3 opacity-30" />}
+      {chevron && (
+        <ArrowRight
+          className={`size-3 opacity-30 shrink-0 transition-all duration-300 ${
+            isCollapsed ? "md:hidden md:w-0 md:opacity-0" : "block"
+          }`}
+        />
+      )}
     </a>
   );
 }
@@ -256,22 +317,19 @@ function ModuleTile({
   tone,
 }: {
   label: string;
-  desc: string;
+  desc?: string;
   icon: React.ComponentType<{ className?: string }>;
   tone: string;
 }) {
   return (
     <button className="flex flex-col items-start p-5 bg-white border border-slate-200 rounded-xl hover:border-brand-accent hover:shadow-lg transition-all text-left group">
       <div
-        className={
-          "size-12 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform " +
-          tone
-        }
+        className={`size-12 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform ${tone}`}
       >
         <Icon className="size-6" />
       </div>
       <p className="font-semibold text-slate-800">{label}</p>
-      <p className="text-xs text-slate-500 mt-1 leading-relaxed">{desc}</p>
+      {desc && <p className="text-xs text-slate-500 mt-1 leading-relaxed">{desc}</p>}
     </button>
   );
 }
