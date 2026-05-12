@@ -213,7 +213,7 @@ function Dashboard() {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="pt-5 pb-2 px-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+    <div className="pt-5 pb-2 px-3 text-[10px] font-bold text-slate-700 uppercase tracking-widest">
       {children}
     </div>
   );
