@@ -237,7 +237,7 @@ function NavItem({
         "flex items-center justify-between gap-3 px-3 py-2 rounded-md transition-colors " +
         (active
           ? "bg-brand-accent-soft text-brand-accent"
-          : "text-slate-600 hover:bg-slate-100 hover:text-slate-900")
+          : "text-slate-700 hover:bg-slate-100 hover:text-slate-900")
       }
     >
       <span className="flex items-center gap-3">
