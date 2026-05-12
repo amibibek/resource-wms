@@ -213,7 +213,7 @@ function Dashboard() {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="pt-5 pb-2 px-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+    <div className="pt-5 pb-2 px-3 text-[10px] font-bold text-slate-700 uppercase tracking-widest">
       {children}
     </div>
   );
@@ -237,7 +237,7 @@ function NavItem({
         "flex items-center justify-between gap-3 px-3 py-2 rounded-md transition-colors " +
         (active
           ? "bg-brand-accent-soft text-brand-accent"
-          : "text-slate-600 hover:bg-slate-100 hover:text-slate-900")
+          : "text-slate-700 hover:bg-slate-100 hover:text-slate-900")
       }
     >
       <span className="flex items-center gap-3">
