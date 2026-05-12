@@ -191,14 +191,14 @@ function Dashboard() {
         <div className="p-4 md:p-8 overflow-y-auto">
           {/* Module Grid */}
           <section className="mb-8">
-            <div className="flex items-center justify-between mb-4">
+            {/* <div className="flex items-center justify-between mb-4">
               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">
                 Operation Hub
               </h3>
               <button className="text-xs font-medium text-brand-accent hover:underline flex items-center gap-1">
                 Customize <ArrowRight className="size-3" />
               </button>
-            </div>
+            </div> */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {tiles.map((tile) => (
                 <ModuleTile key={tile.label} {...tile} />
