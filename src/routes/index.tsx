@@ -22,7 +22,6 @@ import {
   ClipboardList,
   FileText,
   KeyRound,
-  TrendingUp,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
