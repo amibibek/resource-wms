@@ -109,14 +109,14 @@ function Dashboard() {
   return (
     <div className="flex min-h-screen bg-background font-sans text-slate-900">
       {/* Sidebar */}
-      <aside className="hidden md:flex w-64 bg-brand-primary text-slate-300 flex-col shrink-0">
+      <aside className="hidden md:flex w-64 bg-white border-r border-slate-200 text-slate-700 flex-col shrink-0">
         <div className="p-6 flex items-center gap-3">
           <div className="size-9 bg-brand-accent rounded-md flex items-center justify-center font-bold text-white">
             R
           </div>
           <div>
-            <h1 className="text-white font-bold text-lg leading-tight">Resources</h1>
-            <p className="text-[10px] text-slate-400 uppercase tracking-wider">
+            <h1 className="text-slate-900 font-bold text-lg leading-tight">Resources</h1>
+            <p className="text-[10px] text-slate-500 uppercase tracking-wider">
               Pallet WMS Product
             </p>
           </div>
@@ -143,16 +143,16 @@ function Dashboard() {
           ))}
         </nav>
 
-        <div className="p-4 mt-auto border-t border-white/5">
+        <div className="p-4 mt-auto border-t border-slate-200">
           <div className="flex items-center gap-3">
-            <div className="size-9 rounded-full bg-slate-800 grid place-items-center text-xs font-semibold text-white outline-1 -outline-offset-1 outline-white/10">
+            <div className="size-9 rounded-full bg-brand-primary grid place-items-center text-xs font-semibold text-white">
               AD
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-medium text-white truncate">Admin User</p>
+              <p className="text-xs font-medium text-slate-900 truncate">Admin User</p>
               <p className="text-[10px] text-slate-500 truncate">Super Admin</p>
             </div>
-            <ChevronDown className="size-4 text-slate-500" />
+            <ChevronDown className="size-4 text-slate-400" />
           </div>
         </div>
       </aside>
