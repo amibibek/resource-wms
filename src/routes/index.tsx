@@ -250,31 +250,6 @@ function NavItem({
   );
 }
 
-function KpiCard({
-  label,
-  value,
-  hint,
-  hintTone,
-  children,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-  hintTone?: string;
-  children?: React.ReactNode;
-}) {
-  return (
-    <div className="bg-white p-5 md:p-6 rounded-xl border border-slate-200 shadow-sm">
-      <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">
-        {label}
-      </p>
-      <p className="text-2xl md:text-3xl font-bold text-slate-900">{value}</p>
-      {hint && <p className={"mt-2 text-[11px] font-medium " + (hintTone ?? "text-slate-500")}>{hint}</p>}
-      {children}
-    </div>
-  );
-}
-
 function ModuleTile({
   label,
   desc,
