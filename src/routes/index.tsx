@@ -190,33 +190,6 @@ function Dashboard() {
         </header>
 
         <div className="p-4 md:p-8 overflow-y-auto">
-          {/* KPI Strip */}
-          <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
-            <KpiCard
-              label="Active Orders"
-              value="1,284"
-              hint="↑ 12% from yesterday"
-              hintTone="text-emerald-600"
-            />
-            <KpiCard
-              label="Inbound Transit"
-              value="42"
-              hint="6 arriving in 2 hours"
-              hintTone="text-slate-500"
-            />
-            <KpiCard label="Warehouse Cap" value="88%">
-              <div className="mt-3 h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                <div className="h-full bg-brand-accent" style={{ width: "88%" }} />
-              </div>
-            </KpiCard>
-            <KpiCard
-              label="Pending Tasks"
-              value="15"
-              hint="Requires attention"
-              hintTone="text-amber-600"
-            />
-          </section>
-
           {/* Module Grid */}
           <section className="mb-8">
             <div className="flex items-center justify-between mb-4">
@@ -231,76 +204,6 @@ function Dashboard() {
               {tiles.map((tile) => (
                 <ModuleTile key={tile.label} {...tile} />
               ))}
-            </div>
-          </section>
-
-          {/* Activity */}
-          <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
-              <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-slate-800">Recent Activity</h3>
-                <button className="text-xs text-brand-accent hover:underline">View all</button>
-              </div>
-              <ul className="divide-y divide-slate-100">
-                {[
-                  {
-                    time: "09:42",
-                    text: "Outbound shipment #SO-9921 finalized",
-                    meta: "Station 04",
-                  },
-                  {
-                    time: "09:38",
-                    text: "Inventory correction: PLT-44-B (+4 units)",
-                    meta: "Admin",
-                  },
-                  {
-                    time: "09:35",
-                    text: "Receiving order created — Supplier: PalletCorp",
-                    meta: "Gate 02",
-                  },
-                  {
-                    time: "09:21",
-                    text: "Invoice #INV-3382 marked as paid",
-                    meta: "Billing",
-                  },
-                ].map((row) => (
-                  <li
-                    key={row.text}
-                    className="px-5 py-3 flex items-center justify-between text-[13px] hover:bg-slate-50/60"
-                  >
-                    <div className="flex items-center gap-4 min-w-0">
-                      <span className="text-slate-400 tabular-nums text-xs w-12">{row.time}</span>
-                      <span className="font-medium text-slate-700 truncate">{row.text}</span>
-                    </div>
-                    <span className="text-slate-500 text-xs shrink-0 ml-4">{row.meta}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="bg-brand-primary text-white rounded-xl p-6 shadow-sm flex flex-col">
-              <div className="flex items-center gap-2 text-brand-accent text-xs font-semibold uppercase tracking-wider">
-                <TrendingUp className="size-4" /> Throughput
-              </div>
-              <p className="text-4xl font-bold mt-3">2,176</p>
-              <p className="text-xs text-slate-400 mt-1">Pallets handled this week</p>
-              <div className="mt-6 flex items-end gap-1.5 h-20">
-                {[40, 65, 50, 80, 70, 90, 60].map((h, i) => (
-                  <div
-                    key={i}
-                    className="flex-1 rounded-sm bg-white/10"
-                    style={{ height: `${h}%` }}
-                  >
-                    <div
-                      className="w-full bg-brand-accent rounded-sm"
-                      style={{ height: `${h}%` }}
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 flex justify-between text-[10px] text-slate-500 uppercase tracking-wider">
-                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
-              </div>
             </div>
           </section>
         </div>
