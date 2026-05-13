@@ -204,39 +204,37 @@ export function CustomerTable() {
           </thead>
 
           <tbody className="divide-y divide-slate-100">
-            {/* Sample Row */}
-
-            <tr className="hover:bg-slate-50/80 transition-colors group">
-              <td className="px-4 py-3 text-sm font-medium text-slate-700 uppercase">AGCT</td>
-
-              <td className="px-4 py-3 text-sm text-slate-600">ARGELITH CERAMIC TILES INC</td>
-
-              <td className="px-4 py-3 text-sm text-slate-500 font-mono text-[13px]">
-                christian@argelithusa...
-              </td>
-
-              <td className="px-4 py-3 text-sm text-slate-500">(630) 444-0665</td>
-
-              <td className="px-4 py-3 text-center">
-                <div className="flex items-center justify-center gap-1">
-                  <button
-                    className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
-                    title="Edit"
-                  >
-                    <Edit2 className="size-3.5" />
-                  </button>
-
-                  <button
-                    className="p-1.5 text-rose-600 hover:bg-rose-50 rounded-md transition-colors"
-                    title="Delete"
-                  >
-                    <Trash2 className="size-3.5" />
-                  </button>
-                </div>
-              </td>
-            </tr>
-
-            {/* Repeat rows here */}
+            {CUSTOMERS.slice(0, 20).map((cust) => {
+              const emailSlug = cust.code.toLowerCase();
+              const email = `${emailSlug}@${emailSlug}corp.com`;
+              const phone = `(${(200 + (cust.code.charCodeAt(0) % 700)).toString()}) ${(100 + (cust.code.charCodeAt(1) % 900)).toString()}-${(1000 + (cust.code.length * 137) % 9000).toString()}`;
+              return (
+                <tr key={cust.code} className="hover:bg-slate-50/80 transition-colors group">
+                  <td className="px-4 py-3 text-sm font-medium text-slate-700 uppercase">{cust.code}</td>
+                  <td className="px-4 py-3 text-sm text-slate-600">{cust.name}</td>
+                  <td className="px-4 py-3 text-sm text-slate-500 font-mono text-[13px]">
+                    {email.length > 28 ? email.slice(0, 25) + "..." : email}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-slate-500">{phone}</td>
+                  <td className="px-4 py-3 text-center">
+                    <div className="flex items-center justify-center gap-1">
+                      <button
+                        className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                        title="Edit"
+                      >
+                        <Edit2 className="size-3.5" />
+                      </button>
+                      <button
+                        className="p-1.5 text-rose-600 hover:bg-rose-50 rounded-md transition-colors"
+                        title="Delete"
+                      >
+                        <Trash2 className="size-3.5" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
 
