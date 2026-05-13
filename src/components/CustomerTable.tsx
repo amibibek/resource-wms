@@ -43,6 +43,11 @@ export function CustomerTable() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState("ALL");
+  const [currentPage, setCurrentPage] = useState(1);
+  const PAGE_SIZE = 20;
+  const totalPages = Math.max(1, Math.ceil(CUSTOMERS.length / PAGE_SIZE));
+  const pageStart = (currentPage - 1) * PAGE_SIZE;
+  const pageItems = CUSTOMERS.slice(pageStart, pageStart + PAGE_SIZE);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Filter logic for the dropdown
