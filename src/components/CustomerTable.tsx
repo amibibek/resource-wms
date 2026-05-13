@@ -1,15 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import {
-  Search,
-  RotateCcw,
-  Plus,
-  FileUp,
-  Edit2,
-  Trash2,
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { Search, RotateCcw, Plus, FileUp, Edit2, Trash2, ChevronDown } from "lucide-react";
 
 // Parsed data from your list
 const CUSTOMERS = [
@@ -53,11 +43,6 @@ export function CustomerTable() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState("ALL");
-  const [currentPage, setCurrentPage] = useState(1);
-  const PAGE_SIZE = 10;
-  const totalPages = Math.max(1, Math.ceil(CUSTOMERS.length / PAGE_SIZE));
-  const pageStart = (currentPage - 1) * PAGE_SIZE;
-  const pageItems = CUSTOMERS.slice(pageStart, pageStart + PAGE_SIZE);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Filter logic for the dropdown
@@ -219,39 +204,39 @@ export function CustomerTable() {
           </thead>
 
           <tbody className="divide-y divide-slate-100">
-            {pageItems.map((cust) => {
-              const emailSlug = cust.code.toLowerCase();
-              const email = `${emailSlug}@${emailSlug}corp.com`;
-              const phone = `(${(200 + (cust.code.charCodeAt(0) % 700)).toString()}) ${(100 + (cust.code.charCodeAt(1) % 900)).toString()}-${(1000 + ((cust.code.length * 137) % 9000)).toString()}`;
-              return (
-                <tr key={cust.code} className="hover:bg-slate-50/80 transition-colors group">
-                  <td className="px-3 py-1 text-sm font-medium text-[13px] text-slate-700 uppercase">
-                    {cust.code}
-                  </td>
-                  <td className="px-3 py-1 text-sm text-slate-600 text-[13px]">{cust.name}</td>
-                  <td className="px-3 py-1 text-sm text-slate-600 text-[13px]">
-                    {email.length > 28 ? email.slice(0, 25) + "..." : email}
-                  </td>
-                  <td className="px-3 py-1 text-sm text-slate-500 text-[13px]">{phone}</td>
-                  <td className="px-3 py-1 text-center text-[13px]">
-                    <div className="flex items-center justify-center gap-1">
-                      <button
-                        className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
-                        title="Edit"
-                      >
-                        <Edit2 className="size-3.5" />
-                      </button>
-                      <button
-                        className="p-1.5 text-rose-600 hover:bg-rose-50 rounded-md transition-colors"
-                        title="Delete"
-                      >
-                        <Trash2 className="size-3.5" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+            {/* Sample Row */}
+
+            <tr className="hover:bg-slate-50/80 transition-colors group">
+              <td className="px-4 py-3 text-sm font-medium text-slate-700 uppercase">AGCT</td>
+
+              <td className="px-4 py-3 text-sm text-slate-600">ARGELITH CERAMIC TILES INC</td>
+
+              <td className="px-4 py-3 text-sm text-slate-500 font-mono text-[13px]">
+                christian@argelithusa...
+              </td>
+
+              <td className="px-4 py-3 text-sm text-slate-500">(630) 444-0665</td>
+
+              <td className="px-4 py-3 text-center">
+                <div className="flex items-center justify-center gap-1">
+                  <button
+                    className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                    title="Edit"
+                  >
+                    <Edit2 className="size-3.5" />
+                  </button>
+
+                  <button
+                    className="p-1.5 text-rose-600 hover:bg-rose-50 rounded-md transition-colors"
+                    title="Delete"
+                  >
+                    <Trash2 className="size-3.5" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+
+            {/* Repeat rows here */}
           </tbody>
         </table>
 
@@ -259,11 +244,7 @@ export function CustomerTable() {
 
         <div className="px-3 py-2 bg-slate-50/30 border-t border-slate-200 flex items-center justify-between">
           <p className="text-xs text-slate-500">
-            Showing{" "}
-            <span className="font-medium">
-              {pageStart + 1} - {Math.min(pageStart + PAGE_SIZE, CUSTOMERS.length)}
-            </span>{" "}
-            of {CUSTOMERS.length} items
+            Showing <span className="font-medium">1 - 50</span> of 109 items
           </p>
 
           <div className="flex gap-1 items-center">
