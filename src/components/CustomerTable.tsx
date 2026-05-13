@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import { Search, RotateCcw, Plus, FileUp, Edit2, Trash2, ChevronDown } from "lucide-react";
+import { Search, RotateCcw, Plus, FileUp, Edit2, Trash2, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 
 // Parsed data from your list
 const CUSTOMERS = [
