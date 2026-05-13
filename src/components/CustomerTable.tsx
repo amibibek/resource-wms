@@ -209,7 +209,7 @@ export function CustomerTable() {
           </thead>
 
           <tbody className="divide-y divide-slate-100">
-            {CUSTOMERS.slice(0, 20).map((cust) => {
+            {pageItems.map((cust) => {
               const emailSlug = cust.code.toLowerCase();
               const email = `${emailSlug}@${emailSlug}corp.com`;
               const phone = `(${(200 + (cust.code.charCodeAt(0) % 700)).toString()}) ${(100 + (cust.code.charCodeAt(1) % 900)).toString()}-${(1000 + (cust.code.length * 137) % 9000).toString()}`;
@@ -247,18 +247,35 @@ export function CustomerTable() {
 
         <div className="px-4 py-3 bg-slate-50/30 border-t border-slate-200 flex items-center justify-between">
           <p className="text-xs text-slate-500">
-            Showing <span className="font-medium">1 - 50</span> of 109 items
+            Showing <span className="font-medium">{pageStart + 1} - {Math.min(pageStart + PAGE_SIZE, CUSTOMERS.length)}</span> of {CUSTOMERS.length} items
           </p>
 
-          <div className="flex gap-1">
-            {[1, 2, 3].map((n) => (
+          <div className="flex gap-1 items-center">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="size-8 flex items-center justify-center rounded-md text-xs font-medium text-slate-600 hover:bg-white border border-transparent hover:border-slate-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-transparent transition-all"
+              aria-label="Previous page"
+            >
+              <ChevronLeft className="size-4" />
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
               <button
                 key={n}
-                className={`size-8 flex items-center justify-center rounded-md text-xs font-medium transition-all ${n === 1 ? "bg-brand-accent text-white shadow-sm" : "hover:bg-white border border-transparent hover:border-slate-200 text-slate-600"}`}
+                onClick={() => setCurrentPage(n)}
+                className={`size-8 flex items-center justify-center rounded-md text-xs font-medium transition-all ${n === currentPage ? "bg-brand-accent text-white shadow-sm" : "hover:bg-white border border-transparent hover:border-slate-200 text-slate-600"}`}
               >
                 {n}
               </button>
             ))}
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="size-8 flex items-center justify-center rounded-md text-xs font-medium text-slate-600 hover:bg-white border border-transparent hover:border-slate-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-transparent transition-all"
+              aria-label="Next page"
+            >
+              <ChevronRight className="size-4" />
+            </button>
           </div>
         </div>
       </div>
