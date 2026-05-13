@@ -86,7 +86,7 @@ export function CustomerTable() {
       <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-end gap-4">
         {/* Filter Group: Customer Code */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-[13px] font-regular text-slate-600 tracking-wider ml-0.5">
+          <label className="text-[13px] font-regular text-slate-800 tracking-wider ml-0.5">
             Customer Code
           </label>
           <input
@@ -98,7 +98,7 @@ export function CustomerTable() {
 
         {/* Filter Group: Searchable Customer Name Dropdown */}
         <div className="flex flex-col gap-1.5 relative" ref={dropdownRef}>
-          <label className="text-[13px] font-regular text-slate-600 tracking-wider ml-0.5">
+          <label className="text-[13px] font-regular text-slate-800 tracking-wider ml-0.5">
             Customer Name
           </label>
 
@@ -135,7 +135,7 @@ export function CustomerTable() {
                     setIsOpen(false);
                     setSearchTerm("");
                   }}
-                  className="px-3 py-2 text-sm hover:bg-blue-50 cursor-pointer text-slate-600 font-medium border-b border-slate-50"
+                  className="px-3 py-2 text-sm hover:bg-blue-50 cursor-pointer text-slate-800 font-medium border-b border-slate-50"
                 >
                   ALL
                 </li>
@@ -174,7 +174,7 @@ export function CustomerTable() {
             setSelectedCustomer("ALL");
             setSearchTerm("");
           }}
-          className="h-9 px-4 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-md text-sm font-medium flex items-center gap-2 transition-colors"
+          className="h-9 px-4 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-md text-sm font-medium flex items-center gap-2 transition-colors"
         >
           <RotateCcw className="size-4" /> Clear
         </button>
@@ -228,11 +228,11 @@ export function CustomerTable() {
                   <td className="px-3 py-1 text-sm font-medium text-[13px] text-slate-700 uppercase">
                     {cust.code}
                   </td>
-                  <td className="px-3 py-1 text-sm text-slate-600 text-[13px]">{cust.name}</td>
-                  <td className="px-3 py-1 text-sm text-slate-600 text-[13px]">
+                  <td className="px-3 py-1 text-sm text-slate-800 text-[13px]">{cust.name}</td>
+                  <td className="px-3 py-1 text-sm text-slate-800 text-[13px]">
                     {email.length > 28 ? email.slice(0, 25) + "..." : email}
                   </td>
-                  <td className="px-3 py-1 text-sm text-slate-500 text-[13px]">{phone}</td>
+                  <td className="px-3 py-1 text-sm text-slate-800 text-[13px]">{phone}</td>
                   <td className="px-3 py-1 text-center text-[13px]">
                     <div className="flex items-center justify-center gap-1">
                       <button
@@ -258,7 +258,7 @@ export function CustomerTable() {
         {/* Pagination Footer */}
 
         <div className="px-3 py-2 bg-slate-50/30 border-t border-slate-200 flex items-center justify-between">
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-800">
             Showing{" "}
             <span className="font-medium">
               {pageStart + 1} - {Math.min(pageStart + PAGE_SIZE, CUSTOMERS.length)}
@@ -270,7 +270,7 @@ export function CustomerTable() {
             <button
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              className="size-8 flex items-center justify-center rounded-md text-xs font-medium text-slate-600 hover:bg-white border border-transparent hover:border-slate-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-transparent transition-all"
+              className="size-8 flex items-center justify-center rounded-md text-xs font-medium text-slate-800 hover:bg-white border border-transparent hover:border-slate-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-transparent transition-all"
               aria-label="Previous page"
             >
               <ChevronLeft className="size-4" />
@@ -279,7 +279,7 @@ export function CustomerTable() {
               <button
                 key={n}
                 onClick={() => setCurrentPage(n)}
-                className={`size-8 flex items-center justify-center rounded-md text-xs font-medium transition-all ${n === currentPage ? "bg-brand-accent text-white shadow-sm" : "hover:bg-white border border-transparent hover:border-slate-200 text-slate-600"}`}
+                className={`size-8 flex items-center justify-center rounded-md text-xs font-medium transition-all ${n === currentPage ? "bg-brand-accent text-white shadow-sm" : "hover:bg-white border border-transparent hover:border-slate-200 text-slate-800"}`}
               >
                 {n}
               </button>
@@ -287,7 +287,7 @@ export function CustomerTable() {
             <button
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
-              className="size-8 flex items-center justify-center rounded-md text-xs font-medium text-slate-600 hover:bg-white border border-transparent hover:border-slate-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-transparent transition-all"
+              className="size-8 flex items-center justify-center rounded-md text-xs font-medium text-slate-800 hover:bg-white border border-transparent hover:border-slate-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-transparent transition-all"
               aria-label="Next page"
             >
               <ChevronRight className="size-4" />

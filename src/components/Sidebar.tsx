@@ -13,6 +13,7 @@ import {
   Settings,
   ChevronDown,
   ChevronRight,
+  X,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -66,55 +67,88 @@ const navSections = [
 
 export function Sidebar({ isCollapsed, isMobileOpen, setIsMobileOpen }: SidebarProps) {
   return (
-    <aside
-      className={`fixed md:static inset-y-0 left-0 z-50 flex flex-col shrink-0 bg-white border-r border-slate-200 text-slate-700 transition-all duration-300 ease-in-out
-        ${isCollapsed ? "md:w-20" : "md:w-64"} w-64 md:w-auto
-        ${isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
-    >
-      <div className={`p-6 flex items-center ${isCollapsed ? "md:justify-center" : "gap-3"}`}>
-        <div className="size-9 bg-brand-accent rounded-md flex items-center justify-center font-bold text-white shrink-0">
-          R
-        </div>
-        {!isCollapsed && (
-          <div className="min-w-0">
-            <h1 className="text-slate-900 font-bold text-lg leading-tight truncate">Resources</h1>
-            <p className="text-[10px] text-slate-600 uppercase tracking-wider truncate">
-              Pallet WMS Product
-            </p>
-          </div>
-        )}
-      </div>
+    <>
+      {/* Mobile Overlay */}
+      {isMobileOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40 md:hidden"
+          onClick={() => setIsMobileOpen(false)}
+        />
+      )}
 
-      <nav className="flex-1 px-3 space-y-1 mt-2 overflow-y-auto custom-scrollbar">
-        {navSections.map((section) => (
-          <div key={section.label}>
-            {section.label !== "Main" && (
-              <SectionLabel isCollapsed={isCollapsed}>{section.label}</SectionLabel>
-            )}
-            {section.items.map((item) => (
-              <NavItem key={item.label} {...item} isCollapsed={isCollapsed} />
-            ))}
-          </div>
-        ))}
-      </nav>
-
-      <div
-        className={`p-4 mt-auto border-t border-slate-200 flex items-center ${isCollapsed ? "md:justify-center" : "justify-between"}`}
+      <aside
+        className={`fixed md:static inset-y-0 left-0 z-50 flex flex-col shrink-0 bg-white border-r border-slate-200 text-slate-700 transition-all duration-300 ease-in-out
+      ${isCollapsed ? "md:w-20" : "md:w-64"} w-64 md:w-auto
+      ${isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
-        <div className="flex items-center gap-3 ">
-          <div className="size-9 rounded-full bg-brand-primary grid place-items-center text-xs font-semibold text-white shrink-0">
-            AD
-          </div>
-          {!isCollapsed && (
-            <div className="min-w-0">
-              <p className="text-xs font-medium text-slate-900 truncate">Admin User</p>
-              <p className="text-[10px] text-slate-500 truncate">Super Admin</p>
+        {/* Header */}
+        <div
+          className={`p-6 flex items-center justify-between ${
+            isCollapsed ? "md:justify-center" : "gap-3"
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <div className="size-9 bg-brand-accent rounded-md flex items-center justify-center font-bold text-white shrink-0">
+              R
             </div>
-          )}
+
+            {!isCollapsed && (
+              <div className="min-w-0">
+                <h1 className="text-slate-900 font-bold text-lg leading-tight truncate">
+                  Resources
+                </h1>
+                <p className="text-[10px] text-slate-600 uppercase tracking-wider truncate">
+                  Pallet WMS Product
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Mobile Close Button */}
+          <button
+            onClick={() => setIsMobileOpen(false)}
+            className="md:hidden p-1 rounded-md hover:bg-slate-100"
+          >
+            <X className="size-5 text-slate-600" />
+          </button>
         </div>
-        {!isCollapsed && <ChevronDown className="size-4 text-slate-400 shrink-0" />}
-      </div>
-    </aside>
+
+        <nav className="flex-1 px-3 space-y-1 mt-2 overflow-y-auto custom-scrollbar">
+          {navSections.map((section) => (
+            <div key={section.label}>
+              {section.label !== "Main" && (
+                <SectionLabel isCollapsed={isCollapsed}>{section.label}</SectionLabel>
+              )}
+
+              {section.items.map((item) => (
+                <NavItem key={item.label} {...item} isCollapsed={isCollapsed} />
+              ))}
+            </div>
+          ))}
+        </nav>
+
+        <div
+          className={`p-4 mt-auto border-t border-slate-200 flex items-center ${
+            isCollapsed ? "md:justify-center" : "justify-between"
+          }`}
+        >
+          <div className="flex items-center gap-3 ">
+            <div className="size-9 rounded-full bg-brand-primary grid place-items-center text-xs font-semibold text-white shrink-0">
+              AD
+            </div>
+
+            {!isCollapsed && (
+              <div className="min-w-0">
+                <p className="text-xs font-medium text-slate-900 truncate">Admin User</p>
+                <p className="text-[10px] text-slate-500 truncate">Super Admin</p>
+              </div>
+            )}
+          </div>
+
+          {!isCollapsed && <ChevronDown className="size-4 text-slate-400 shrink-0" />}
+        </div>
+      </aside>
+    </>
   );
 }
 
