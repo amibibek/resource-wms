@@ -196,23 +196,23 @@ export function CustomerTable() {
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-slate-50/50 border-b border-slate-200">
-              <th className="px-3 py-2 text-[13px] font-bold text-slate-700 uppercase tracking-wider">
+              <th className="px-3 py-2 text-[12px] font-bold text-slate-700 uppercase tracking-wider">
                 Code
               </th>
 
-              <th className="px-3 py-2 text-[13px] font-bold text-slate-700 uppercase tracking-wider">
+              <th className="px-3 py-2 text-[12px] font-bold text-slate-700 uppercase tracking-wider">
                 Customer Name
               </th>
 
-              <th className="px-3 py-2 text-[13px] font-bold text-slate-700 uppercase tracking-wider">
+              <th className="px-3 py-2 text-[12px] font-bold text-slate-700 uppercase tracking-wider">
                 Email Contact
               </th>
 
-              <th className="px-3 py-2 text-[13px] font-bold text-slate-700 uppercase tracking-wider">
+              <th className="px-3 py-2 text-[12px] font-bold text-slate-700 uppercase tracking-wider">
                 Phone
               </th>
 
-              <th className="px-3 py-2 text-[13px] font-bold text-slate-700 uppercase tracking-wider text-center w-24">
+              <th className="px-3 py-2 text-[12px] font-bold text-slate-700 uppercase tracking-wider text-center w-24">
                 Actions
               </th>
             </tr>
