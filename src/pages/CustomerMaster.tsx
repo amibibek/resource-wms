@@ -22,7 +22,7 @@ export function CustomerMasterView() {
           onToggleDesktop={() => setIsCollapsed(!isCollapsed)}
         />
 
-        <div className="flex-1 p-4 md:p-6 overflow-y-auto">
+        <div className="flex-1 p-4 md:p-4 overflow-y-auto">
           <CustomerTable />
         </div>
       </main>

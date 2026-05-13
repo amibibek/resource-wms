@@ -1,5 +1,15 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import { Search, RotateCcw, Plus, FileUp, Edit2, Trash2, ChevronDown } from "lucide-react";
+import {
+  Search,
+  RotateCcw,
+  Plus,
+  FileUp,
+  Edit2,
+  Trash2,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 // Parsed data from your list
 const CUSTOMERS = [
@@ -43,6 +53,11 @@ export function CustomerTable() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState("ALL");
+  const [currentPage, setCurrentPage] = useState(1);
+  const PAGE_SIZE = 10;
+  const totalPages = Math.max(1, Math.ceil(CUSTOMERS.length / PAGE_SIZE));
+  const pageStart = (currentPage - 1) * PAGE_SIZE;
+  const pageItems = CUSTOMERS.slice(pageStart, pageStart + PAGE_SIZE);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Filter logic for the dropdown
@@ -71,7 +86,7 @@ export function CustomerTable() {
       <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-end gap-4">
         {/* Filter Group: Customer Code */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-[11px] font-regular text-slate-600 tracking-wider ml-0.5">
+          <label className="text-[13px] font-regular text-slate-600 tracking-wider ml-0.5">
             Customer Code
           </label>
           <input
@@ -83,7 +98,7 @@ export function CustomerTable() {
 
         {/* Filter Group: Searchable Customer Name Dropdown */}
         <div className="flex flex-col gap-1.5 relative" ref={dropdownRef}>
-          <label className="text-[11px] font-regular text-slate-600 tracking-wider ml-0.5">
+          <label className="text-[13px] font-regular text-slate-600 tracking-wider ml-0.5">
             Customer Name
           </label>
 
@@ -181,81 +196,102 @@ export function CustomerTable() {
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-slate-50/50 border-b border-slate-200">
-              <th className="px-4 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+              <th className="px-3 py-2 text-[13px] font-bold text-slate-700 uppercase tracking-wider">
                 Code
               </th>
 
-              <th className="px-4 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+              <th className="px-3 py-2 text-[13px] font-bold text-slate-700 uppercase tracking-wider">
                 Customer Name
               </th>
 
-              <th className="px-4 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+              <th className="px-3 py-2 text-[13px] font-bold text-slate-700 uppercase tracking-wider">
                 Email Contact
               </th>
 
-              <th className="px-4 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+              <th className="px-3 py-2 text-[13px] font-bold text-slate-700 uppercase tracking-wider">
                 Phone
               </th>
 
-              <th className="px-4 py-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider text-center w-24">
+              <th className="px-3 py-2 text-[13px] font-bold text-slate-700 uppercase tracking-wider text-center w-24">
                 Actions
               </th>
             </tr>
           </thead>
 
           <tbody className="divide-y divide-slate-100">
-            {/* Sample Row */}
-
-            <tr className="hover:bg-slate-50/80 transition-colors group">
-              <td className="px-4 py-3 text-sm font-medium text-slate-700 uppercase">AGCT</td>
-
-              <td className="px-4 py-3 text-sm text-slate-600">ARGELITH CERAMIC TILES INC</td>
-
-              <td className="px-4 py-3 text-sm text-slate-500 font-mono text-[13px]">
-                christian@argelithusa...
-              </td>
-
-              <td className="px-4 py-3 text-sm text-slate-500">(630) 444-0665</td>
-
-              <td className="px-4 py-3 text-center">
-                <div className="flex items-center justify-center gap-1">
-                  <button
-                    className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
-                    title="Edit"
-                  >
-                    <Edit2 className="size-3.5" />
-                  </button>
-
-                  <button
-                    className="p-1.5 text-rose-600 hover:bg-rose-50 rounded-md transition-colors"
-                    title="Delete"
-                  >
-                    <Trash2 className="size-3.5" />
-                  </button>
-                </div>
-              </td>
-            </tr>
-
-            {/* Repeat rows here */}
+            {pageItems.map((cust) => {
+              const emailSlug = cust.code.toLowerCase();
+              const email = `${emailSlug}@${emailSlug}corp.com`;
+              const phone = `(${(200 + (cust.code.charCodeAt(0) % 700)).toString()}) ${(100 + (cust.code.charCodeAt(1) % 900)).toString()}-${(1000 + ((cust.code.length * 137) % 9000)).toString()}`;
+              return (
+                <tr key={cust.code} className="hover:bg-slate-50/80 transition-colors group">
+                  <td className="px-3 py-1 text-sm font-medium text-[13px] text-slate-700 uppercase">
+                    {cust.code}
+                  </td>
+                  <td className="px-3 py-1 text-sm text-slate-600 text-[13px]">{cust.name}</td>
+                  <td className="px-3 py-1 text-sm text-slate-600 text-[13px]">
+                    {email.length > 28 ? email.slice(0, 25) + "..." : email}
+                  </td>
+                  <td className="px-3 py-1 text-sm text-slate-500 text-[13px]">{phone}</td>
+                  <td className="px-3 py-1 text-center text-[13px]">
+                    <div className="flex items-center justify-center gap-1">
+                      <button
+                        className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                        title="Edit"
+                      >
+                        <Edit2 className="size-3.5" />
+                      </button>
+                      <button
+                        className="p-1.5 text-rose-600 hover:bg-rose-50 rounded-md transition-colors"
+                        title="Delete"
+                      >
+                        <Trash2 className="size-3.5" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
 
         {/* Pagination Footer */}
 
-        <div className="px-4 py-3 bg-slate-50/30 border-t border-slate-200 flex items-center justify-between">
+        <div className="px-3 py-2 bg-slate-50/30 border-t border-slate-200 flex items-center justify-between">
           <p className="text-xs text-slate-500">
-            Showing <span className="font-medium">1 - 50</span> of 109 items
+            Showing{" "}
+            <span className="font-medium">
+              {pageStart + 1} - {Math.min(pageStart + PAGE_SIZE, CUSTOMERS.length)}
+            </span>{" "}
+            of {CUSTOMERS.length} items
           </p>
 
-          <div className="flex gap-1">
-            {[1, 2, 3].map((n) => (
+          <div className="flex gap-1 items-center">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="size-8 flex items-center justify-center rounded-md text-xs font-medium text-slate-600 hover:bg-white border border-transparent hover:border-slate-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-transparent transition-all"
+              aria-label="Previous page"
+            >
+              <ChevronLeft className="size-4" />
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
               <button
                 key={n}
-                className={`size-8 flex items-center justify-center rounded-md text-xs font-medium transition-all ${n === 1 ? "bg-brand-accent text-white shadow-sm" : "hover:bg-white border border-transparent hover:border-slate-200 text-slate-600"}`}
+                onClick={() => setCurrentPage(n)}
+                className={`size-8 flex items-center justify-center rounded-md text-xs font-medium transition-all ${n === currentPage ? "bg-brand-accent text-white shadow-sm" : "hover:bg-white border border-transparent hover:border-slate-200 text-slate-600"}`}
               >
                 {n}
               </button>
             ))}
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="size-8 flex items-center justify-center rounded-md text-xs font-medium text-slate-600 hover:bg-white border border-transparent hover:border-slate-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-transparent transition-all"
+              aria-label="Next page"
+            >
+              <ChevronRight className="size-4" />
+            </button>
           </div>
         </div>
       </div>
