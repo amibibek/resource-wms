@@ -83,7 +83,7 @@ export function CustomerTable() {
   return (
     <div className="space-y-4">
       {/* Search & Actions Bar */}
-      <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-end gap-4">
+      <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-end gap-4">
         {/* Filter Group: Customer Code */}
         <div className="flex flex-col gap-1.5">
           <label className="text-[13px] font-regular text-slate-600 tracking-wider ml-0.5">
@@ -192,7 +192,7 @@ export function CustomerTable() {
 
       {/* Compact Data Table */}
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-slate-50/50 border-b border-slate-200">
