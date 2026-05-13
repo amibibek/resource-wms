@@ -1,15 +1,15 @@
-@import "tailwindcss" source(none);
-@source "../src";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+@import "tailwindcss";
+
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@variant dark (.dark &);
 
 /*
  * Design system definition.
  *
- * The @theme inline block maps CSS custom properties to Tailwind utility
+ * The @theme block maps CSS custom properties to Tailwind utility
  * classes (e.g. --color-primary -> bg-primary, text-primary).
  *
  * The :root and .dark blocks define the actual color values using oklch.
@@ -17,10 +17,10 @@
  *
  * To add a new semantic color:
  * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ * 2. Register it in @theme as --color-<name>: var(--<name>)
  */
 
-@theme inline {
+@theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --color-brand-primary: var(--brand-primary);
   --color-brand-accent: var(--brand-accent);
@@ -73,6 +73,7 @@
   --brand-accent: oklch(0.62 0.19 257);
   --brand-accent-soft: oklch(0.62 0.19 257 / 0.1);
   --background: oklch(0.984 0.005 247);
+  --background-custom: #e9ecf3;
   --foreground: oklch(0.21 0.04 265);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
@@ -149,5 +150,6 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
   }
 }
