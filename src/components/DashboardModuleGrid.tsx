@@ -11,18 +11,23 @@ import {
 
 const tiles = [
   { label: "Shipping Orders", value: "12", icon: Truck, tone: "bg-blue-50 text-blue-600" },
-  { label: "Receiving", value: "5", icon: ArrowDownToLine, tone: "bg-emerald-50 text-emerald-600" },
-  { label: "Outbound", value: "8", icon: ArrowUpFromLine, tone: "bg-indigo-50 text-indigo-600" },
-  { label: "Services", value: "Active", icon: Wrench, tone: "bg-amber-50 text-amber-600" },
+  { label: "Receiving", value: "5", icon: ArrowDownToLine, tone: "bg-blue-50 text-blue-600" },
+  { label: "Outbound", value: "8", icon: ArrowUpFromLine, tone: "bg-blue-50 text-blue-600" },
+  { label: "Services", value: "562", icon: Wrench, tone: "bg-blue-50 text-blue-600" },
   {
     label: "Inventory Items",
     value: "1,240",
     icon: ClipboardList,
     tone: "bg-slate-100 text-slate-600",
   },
-  { label: "Invoices", value: "24", icon: FileText, tone: "bg-rose-50 text-rose-600" },
-  { label: "Reports", value: "Analytics", icon: BarChart3, tone: "bg-violet-50 text-violet-600" },
-  { label: "Security", value: "Secure", icon: KeyRound, tone: "bg-slate-100 text-slate-600" },
+  { label: "Invoices", value: "24", icon: FileText, tone: "bg-blue-50 text-blue-600" },
+  { label: "Reports", value: "125", icon: BarChart3, tone: "bg-blue-50 text-blue-600" },
+  {
+    label: "Change Password",
+    value: "Security",
+    icon: KeyRound,
+    tone: "bg-blue-50 text-blue-600",
+  },
 ];
 
 export function ModuleGrid() {

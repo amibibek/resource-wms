@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { Link, useLocation } from "@tanstack/react-router";
 import {
   LayoutDashboard,
   MonitorPlay,
@@ -10,10 +12,9 @@ import {
   Receipt,
   Settings,
   ChevronDown,
-  ArrowRight,
+  ChevronRight,
 } from "lucide-react";
 
-// Types for cleaner props
 interface SidebarProps {
   isCollapsed: boolean;
   isMobileOpen: boolean;
@@ -24,28 +25,43 @@ const navSections = [
   {
     label: "Main",
     items: [
-      { label: "Dashboard", icon: LayoutDashboard, active: true },
-      { label: "On Board Dashboard", icon: MonitorPlay },
+      { label: "Dashboard", icon: LayoutDashboard, to: "/dashboard" },
+      { label: "On Board Dashboard", icon: MonitorPlay, to: "/on-board" },
     ],
   },
   {
     label: "Management",
     items: [
-      { label: "Master Data", icon: Database, chevron: true },
-      { label: "Items", icon: Package, chevron: true },
-      { label: "InBound", icon: PackagePlus, chevron: true },
-      { label: "OutBound", icon: PackageMinus, chevron: true },
-      { label: "Inventory", icon: Boxes, chevron: true },
+      {
+        label: "Master Data",
+        icon: Database,
+        subItems: [
+          { label: "Customer", href: "/customers" },
+          { label: "Consignee", href: "/consignee" },
+          { label: "Messages", href: "/messages" },
+          { label: "Carrier", href: "/carrier" },
+          { label: "Shipper", href: "/shipper" },
+          { label: "Accessorials & Services", href: "/services" },
+          { label: "Vendor Specific Price", href: "/pricing" },
+          { label: "Location", href: "/location" },
+          { label: "LOT", href: "/lot" },
+          { label: "Notes", href: "/notes" },
+        ],
+      },
+      { label: "Items", icon: Package, chevron: true, to: "/items" },
+      { label: "InBound", icon: PackagePlus, chevron: true, to: "/inbound" },
+      { label: "OutBound", icon: PackageMinus, chevron: true, to: "/outbound" },
+      { label: "Inventory", icon: Boxes, chevron: true, to: "/inventory" },
     ],
   },
   {
     label: "Business",
     items: [
-      { label: "Reports", icon: BarChart3, chevron: true },
-      { label: "Invoicing", icon: Receipt, chevron: true },
+      { label: "Reports", icon: BarChart3, chevron: true, to: "/reports" },
+      { label: "Invoicing", icon: Receipt, chevron: true, to: "/invoicing" },
     ],
   },
-  { label: "System", items: [{ label: "Settings", icon: Settings }] },
+  { label: "System", items: [{ label: "Settings", icon: Settings, to: "/settings" }] },
 ];
 
 export function Sidebar({ isCollapsed, isMobileOpen, setIsMobileOpen }: SidebarProps) {
@@ -55,7 +71,6 @@ export function Sidebar({ isCollapsed, isMobileOpen, setIsMobileOpen }: SidebarP
         ${isCollapsed ? "md:w-20" : "md:w-64"} w-64 md:w-auto
         ${isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
     >
-      {/* Brand Logo */}
       <div className={`p-6 flex items-center ${isCollapsed ? "md:justify-center" : "gap-3"}`}>
         <div className="size-9 bg-brand-accent rounded-md flex items-center justify-center font-bold text-white shrink-0">
           R
@@ -63,15 +78,14 @@ export function Sidebar({ isCollapsed, isMobileOpen, setIsMobileOpen }: SidebarP
         {!isCollapsed && (
           <div className="min-w-0">
             <h1 className="text-slate-900 font-bold text-lg leading-tight truncate">Resources</h1>
-            <p className="text-[10px] text-slate-500 uppercase tracking-wider truncate">
+            <p className="text-[10px] text-slate-600 uppercase tracking-wider truncate">
               Pallet WMS Product
             </p>
           </div>
         )}
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 px-3 space-y-1 mt-2 overflow-y-auto">
+      <nav className="flex-1 px-3 space-y-1 mt-2 overflow-y-auto custom-scrollbar">
         {navSections.map((section) => (
           <div key={section.label}>
             {section.label !== "Main" && (
@@ -84,11 +98,10 @@ export function Sidebar({ isCollapsed, isMobileOpen, setIsMobileOpen }: SidebarP
         ))}
       </nav>
 
-      {/* User Profile */}
       <div
         className={`p-4 mt-auto border-t border-slate-200 flex items-center ${isCollapsed ? "md:justify-center" : "justify-between"}`}
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 ">
           <div className="size-9 rounded-full bg-brand-primary grid place-items-center text-xs font-semibold text-white shrink-0">
             AD
           </div>
@@ -105,7 +118,6 @@ export function Sidebar({ isCollapsed, isMobileOpen, setIsMobileOpen }: SidebarP
   );
 }
 
-// Sub-components kept internal to Sidebar
 function SectionLabel({
   children,
   isCollapsed,
@@ -115,23 +127,83 @@ function SectionLabel({
 }) {
   if (isCollapsed) return <div className="hidden md:block my-4 border-t border-slate-200 mx-2" />;
   return (
-    <div className="pt-5 pb-2 px-3 text-[10px] font-bold text-slate-700 uppercase tracking-widest">
+    <div className="pt-5 pb-2 px-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
       {children}
     </div>
   );
 }
 
-function NavItem({ label, icon: Icon, active, chevron, isCollapsed }: any) {
-  return (
-    <a
-      href="#"
-      className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors group ${active ? "bg-brand-accent-soft text-brand-accent" : "text-slate-800 hover:bg-slate-100 hover:text-slate-900"} ${isCollapsed ? "md:justify-center" : "justify-between"}`}
+function NavItem({ label, icon: Icon, chevron, isCollapsed, subItems, to }: any) {
+  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation(); // Get current URL path
+
+  const hasSubmenu = subItems && subItems.length > 0;
+  const isExpanded = isOpen && !isCollapsed;
+
+  // STRICT MANUAL ACTIVE CHECK:
+  // Returns true if current URL matches the 'to' prop
+  const isActive = to ? location.pathname === to : false;
+
+  const NavContent = () => (
+    <div
+      onClick={() => hasSubmenu && setIsOpen(!isOpen)}
+      className={`w-full flex items-center px-3 py-2 rounded-md transition-colors group cursor-pointer outline-none ${
+        isActive
+          ? "bg-brand-accent-soft text-blue-600"
+          : "text-slate-800 hover:bg-slate-100 hover:text-slate-900"
+      } ${isCollapsed ? "justify-center" : "justify-between"}`}
     >
-      <span className={`flex items-center ${isCollapsed ? "md:gap-0" : "gap-3"}`}>
+      <span className={`flex items-center  ${isCollapsed ? "md:gap-0" : "gap-3"}`}>
         <Icon className="size-5 shrink-0" />
-        {!isCollapsed && <span className="text-xs font-small whitespace-nowrap">{label}</span>}
+        {!isCollapsed && <span className="text-xs font-medium whitespace-nowrap">{label}</span>}
       </span>
-      {chevron && !isCollapsed && <ArrowRight className="size-3 opacity-30 shrink-0" />}
-    </a>
+
+      {!isCollapsed && (hasSubmenu || chevron) && (
+        <ChevronRight
+          className={`size-3 opacity-40 shrink-0 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`}
+        />
+      )}
+    </div>
+  );
+
+  return (
+    <div className="w-full">
+      {to ? (
+        <Link to={to} className="block no-underline">
+          <NavContent />
+        </Link>
+      ) : (
+        <NavContent />
+      )}
+
+      {isExpanded && hasSubmenu && (
+        <div className="mt-1 ml-[1.125rem] flex flex-col border-l border-slate-200 pl-4 space-y-0.5">
+          {subItems.map((sub: any) => {
+            // Manual check for sub-items
+            const isSubActive = location.pathname === sub.href;
+
+            return (
+              <Link
+                key={sub.label}
+                to={sub.href}
+                className={`relative py-1.5 text-[12px] transition-colors truncate block group/sub ${
+                  isSubActive
+                    ? "text-slate-900 font-semibold"
+                    : "text-slate-700 hover:text-slate-900 font-normal"
+                }`}
+              >
+                {/* Active/Hover Dot */}
+                <span
+                  className={`absolute -left-[17px] top-1/2 -translate-y-1/2 size-1 rounded-full bg-brand-accent transition-opacity ${
+                    isSubActive ? "opacity-100" : "opacity-0 group-hover/sub:opacity-100"
+                  }`}
+                />
+                {sub.label}
+              </Link>
+            );
+          })}
+        </div>
+      )}
+    </div>
   );
 }
