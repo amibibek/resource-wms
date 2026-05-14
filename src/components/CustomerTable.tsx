@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
+import { Link } from "@tanstack/react-router";
 import {
   Search,
   RotateCcw,
@@ -181,9 +182,11 @@ export function CustomerTable() {
 
         {/* Action Buttons */}
         <div className="flex items-center gap-2 ml-auto w-full md:w-auto">
-          <button className="h-9 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium flex items-center gap-2">
-            <Plus className="size-4" /> Add Customer
-          </button>
+          <Link to="/master/add-customer">
+            <button className="h-9 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium flex items-center gap-2">
+              <Plus className="size-4" /> Add Customer
+            </button>
+          </Link>
           <button className="h-9 px-4 border border-blue-700 bg-white text-blue-700 hover:border-blue-600 hover:text-blue-600 rounded-md text-sm font-medium flex items-center gap-2 transition-all">
             <FileUp className="size-4" /> Import CSV
           </button>
